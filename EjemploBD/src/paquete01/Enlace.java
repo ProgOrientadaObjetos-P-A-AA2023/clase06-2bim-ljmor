@@ -21,6 +21,7 @@ public class Enlace {
      * @return 
     */
     private Connection conn;
+    private ArrayList<Ciudad> dataCiudad;
        
     public void establecerConexion() {  
 
@@ -59,8 +60,8 @@ public class Enlace {
         }  
     }
     
-    public ArrayList<Ciudad> obtenerDataCiudad() {  
-        ArrayList<Ciudad> lista = new ArrayList<>();
+    public void establecerDataCiudad() {  
+        dataCiudad = new ArrayList<>();
         try{  
             establecerConexion();
             Statement statement = obtenerConexion().createStatement();
@@ -70,7 +71,7 @@ public class Enlace {
             while(rs.next()){
                 Ciudad miCiudad = new Ciudad(rs.getString("nombre"),
                 rs.getInt("poblacion"));
-                lista.add(miCiudad);
+                dataCiudad.add(miCiudad);
             }
             
             obtenerConexion().close();
@@ -79,7 +80,9 @@ public class Enlace {
              System.out.println(e.getMessage());  
              
         }  
-        return lista;
     }
-     
+
+    public ArrayList<Ciudad> obtenerDataCiudad(){
+        return dataCiudad;
+    }
 }  

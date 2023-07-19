@@ -18,6 +18,7 @@ import paquete02.Auto;
  */
 public class Enlace {
     private Connection conn;
+    private ArrayList<Auto> dataAuto;
        
     public void establecerConexion() {  
 
@@ -49,7 +50,6 @@ public class Enlace {
                     + "values ('%s', %s)", 
                     auto.obtenerPlaca(), 
                     auto.obtenerValorMatricula());
-            System.out.println(data);
             statement.executeUpdate(data);
             obtenerConexion().close();
         } catch (SQLException e) {  
@@ -59,8 +59,8 @@ public class Enlace {
         }  
     }
     
-    public ArrayList<Auto> obtenerDataAuto() {  
-        ArrayList<Auto> lista = new ArrayList<>();
+    public void establecerDataAuto() {  
+        dataAuto = new ArrayList<>();
         try{  
             establecerConexion();
             Statement statement = obtenerConexion().createStatement();
@@ -71,7 +71,7 @@ public class Enlace {
                 Auto auto = new Auto();
                 auto.establecerPlaca(rs.getString("placa"));
                 auto.establecerValorMatricula(rs.getDouble("valor_matricula"));
-                lista.add(auto);
+                dataAuto.add(auto);
             }
             
             obtenerConexion().close();
@@ -80,7 +80,10 @@ public class Enlace {
              System.out.println(e.getMessage());  
              
         }  
-        return lista;
+    }
+    
+    public ArrayList<Auto> obtenerDataAuto(){
+        return dataAuto;
     }
      
 }
